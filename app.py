@@ -171,7 +171,7 @@ if not api_key:
     st.stop()
 
 # Hardcoded model
-model_id = "gemini-3-flash-preview"
+model_id = "gemini-1.5-flash"
 
 # 初始化分析器
 try:
