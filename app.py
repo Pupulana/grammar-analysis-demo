@@ -13,6 +13,8 @@ from grammar_analyzer import (
     create_colored_text,
     create_simple_html_visualization
 )
+import time
+import traceback
 from examples import (
     get_grammar_examples,
     get_phrase_examples,
@@ -171,7 +173,7 @@ if not api_key:
     st.stop()
 
 # Hardcoded model
-model_id = "gemini-1.5-flash"
+model_id = "gemini-2.5-flash-lite"
 
 # 初始化分析器
 try:
@@ -243,55 +245,76 @@ if action and user_text:
         prompt = PROMPTS["keyword"]
         analysis_type = "重点单词标记"
     
-    with st.spinner(f"正在进行 {analysis_type}..."):
-        try:
-            # 执行分析
-            result = analyzer.analyze_grammar(
-                text=user_text,
-                prompt=prompt,
-                examples=examples
-            )
+    # Debug info
+    with st.expander("🛠️ 调试信息 (如果在云端卡住请点此)", expanded=False):
+        st.write(f"**Model ID:** `{model_id}`")
+        st.write(f"**API Key Present:** `{bool(api_key)}`")
+        if api_key:
+            st.write(f"**Key Prefix:** `{api_key[:4]}...`")
+    
+    status_container = st.status(f"正在进行 {analysis_type}...", expanded=True)
+    try:
+        # Step 1
+        status_container.write("🔄 正在准备 Prompt 和示例...")
+        time.sleep(0.1)
+        
+        # Step 2
+        status_container.write(f"🚀 正在调用 Google Gemini API ({model_id})...")
+        start_time = time.time()
+        
+        # 执行分析
+        result = analyzer.analyze_grammar(
+            text=user_text,
+            prompt=prompt,
+            examples=examples
+        )
+        
+        duration = time.time() - start_time
+        status_container.write(f"✅ API 调用成功! 耗时: {duration:.2f}s")
+        
+        # Step 3
+        status_container.write("✨ 正在格式化结果...")
+        status_container.update(label="✅ 分析完成!", state="complete", expanded=False)
+        
+        # 格式化结果
+        extractions = analyzer.format_extractions(result)
             
-            # 格式化结果
-            extractions = analyzer.format_extractions(result)
-            
-            # 显示结果标题
-            st.markdown(f'<h3 class="sub-header">📊 {analysis_type}结果</h3>', unsafe_allow_html=True)
-            
-            # 原文标注展示
-            st.subheader("原文标注")
-            
-            # 创建彩色文本
-            colored_html = create_colored_text(user_text, extractions)
-            st.markdown(f'<div class="tooltip-container" style="line-height: 2.0; font-size: 1.1em;">{colored_html}</div>', unsafe_allow_html=True)
-            
-            # 详细结果 (默认折叠)
-            st.markdown('<h3 class="sub-header">📋 详细分析</h3>', unsafe_allow_html=True)
-            
-            # 按类型分组展示
-            grouped = format_result_for_display(extractions, group_by="类型")
-            
-            for extraction_type, items in grouped.items():
-                with st.expander(f"**{extraction_type}** ({len(items)} 个)", expanded=False):
-                    for item in items:
-                        col_a, col_b = st.columns([1, 2])
-                        with col_a:
-                            st.markdown(f"**文本**: `{item['文本']}`")
-                        with col_b:
-                            # Safe attributes handling
-                            attrs = item.get('属性') or {}
-                            if attrs:
-                                attributes_str = " | ".join(
-                                    [f"**{k}**: {v}" for k, v in attrs.items()]
-                                )
-                                st.markdown(attributes_str)
-                            else:
-                                st.caption("无详细属性")
-                        st.divider()
-            
-        except Exception as e:
-            st.error(f"❌ 分析失败: {str(e)}")
-            st.exception(e)
-
-
-
+        # 显示结果标题
+        st.markdown(f'<h3 class="sub-header">📊 {analysis_type}结果</h3>', unsafe_allow_html=True)
+        
+        # 原文标注展示
+        st.subheader("原文标注")
+        
+        # 创建彩色文本
+        colored_html = create_colored_text(user_text, extractions)
+        st.markdown(f'<div class="tooltip-container" style="line-height: 2.0; font-size: 1.1em;">{colored_html}</div>', unsafe_allow_html=True)
+        
+        # 详细结果 (默认折叠)
+        st.markdown('<h3 class="sub-header">📋 详细分析</h3>', unsafe_allow_html=True)
+        
+        # 按类型分组展示
+        grouped = format_result_for_display(extractions, group_by="类型")
+        
+        for extraction_type, items in grouped.items():
+            with st.expander(f"**{extraction_type}** ({len(items)} 个)", expanded=False):
+                for item in items:
+                    col_a, col_b = st.columns([1, 2])
+                    with col_a:
+                        st.markdown(f"**文本**: `{item['文本']}`")
+                    with col_b:
+                        # Safe attributes handling
+                        attrs = item.get('属性') or {}
+                        if attrs:
+                            attributes_str = " | ".join(
+                                [f"**{k}**: {v}" for k, v in attrs.items()]
+                            )
+                            st.markdown(attributes_str)
+                        else:
+                            st.caption("无详细属性")
+                    st.divider()
+        
+    except Exception as e:
+        status_container.update(label="❌ 分析失败", state="error", expanded=True)
+        st.error(f"❌ 错误详情: {str(e)}")
+        st.markdown("### 🔍 错误堆栈 (Traceback)")
+        st.code(traceback.format_exc())
