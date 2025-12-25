@@ -1,0 +1,59 @@
+{
+  "基础句子": [
+    "The cat sits on the mat.",
+    "She reads a book every day.",
+    "They are playing in the garden.",
+    "I like ice cream.",
+    "The sun rises in the east."
+  ],
+  "中级句子": [
+    "The talented student looked up the difficult vocabulary in the dictionary.",
+    "She gave me a beautiful gift yesterday.",
+    "I'm looking forward to hearing from you soon.",
+    "They have been working on this project for three months.",
+    "The teacher explained the grammar rules clearly."
+  ],
+  "高级句子": [
+    "Photosynthesis is the biological process by which plants convert light energy into chemical energy.",
+    "The algorithm demonstrates remarkable efficiency in processing large datasets.",
+    "Despite facing numerous challenges, the team successfully completed the project ahead of schedule.",
+    "The implementation of artificial intelligence in healthcare has revolutionized medical diagnostics.",
+    "Environmental sustainability requires a comprehensive approach involving government, industry, and individuals."
+  ],
+  "短语动词": [
+    "I'm looking forward to hearing from you soon.",
+    "She decided to give up smoking for health reasons.",
+    "Please turn off the lights when you leave.",
+    "They ran into their old friend at the mall.",
+    "He needs to figure out the solution quickly."
+  ],
+  "习惯用语": [
+    "It's raining cats and dogs outside.",
+    "Break a leg at your performance tonight!",
+    "That piece of cake was really easy.",
+    "Let's not beat around the bush.",
+    "Time flies when you're having fun."
+  ],
+  "学术句子": [
+    "The hypothesis was tested through a series of controlled experiments.",
+    "Quantum mechanics describes the behavior of matter and energy at the molecular level.",
+    "The research findings suggest a correlation between sleep quality and cognitive performance.",
+    "Biodiversity plays a crucial role in maintaining ecosystem stability.",
+    "The economic theory posits that market forces naturally regulate supply and demand."
+  ],
+  "作业场景": [
+    "According to the passage, what is the main idea of the second paragraph?",
+    "Analyze the author's use of metaphor in this excerpt.",
+    "Compare and contrast the two characters in the story.",
+    "What evidence does the author provide to support the claim?",
+    "Identify the cause and effect relationship in the text."
+  ],
+  "阅读理解": [
+    "The ancient civilization developed sophisticated irrigation systems to support agriculture.",
+    "Climate change poses significant threats to coastal communities around the world.",
+    "Technological advancements have transformed the way we communicate and access information.",
+    "The novel explores themes of identity, belonging, and social justice.",
+    "Scientists discovered a new species in the depths of the ocean."
+  ]
+}
+
