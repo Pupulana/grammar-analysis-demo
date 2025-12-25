@@ -157,8 +157,17 @@ if 'user_text' not in st.session_state:
 
 # API Key Check
 api_key = os.environ.get('LANGEXTRACT_API_KEY')
+
+# 尝试从 Streamlit Secrets 获取 (用于云端部署)
 if not api_key:
-    st.error("⚠️ 未设置 API Key，请在 .env 文件中配置 LANGEXTRACT_API_KEY")
+    try:
+        if 'LANGEXTRACT_API_KEY' in st.secrets:
+            api_key = st.secrets['LANGEXTRACT_API_KEY']
+    except FileNotFoundError:
+        pass
+
+if not api_key:
+    st.error("⚠️ 未设置 API Key，请在 .env 文件中配置 LANGEXTRACT_API_KEY，或在 Streamlit Cloud Secrets 中配置。")
     st.stop()
 
 # Hardcoded model
