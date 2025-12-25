@@ -6,10 +6,9 @@
 
 ### 主要功能
 - ✅ 英语句子语法成分分析（主谓宾定状补）
-- ✅ 固定搭配和短语识别
 - ✅ 重点单词标记
 - ✅ 交互式可视化展示
-- ✅ 支持自定义文本输入
+- ✅ 支持自定义文本输入及长难句示例
 
 ## 🚀 快速开始
 
@@ -24,16 +23,12 @@ pip install -r requirements.txt
 创建 `.env` 文件：
 
 ```bash
-# Gemini API（推荐）
+# Gemini API
 LANGEXTRACT_API_KEY=your_gemini_api_key_here
-
-# 或者使用 OpenAI
-# OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 **获取 API Key：**
 - Gemini API: https://aistudio.google.com/app/apikey
-- OpenAI API: https://platform.openai.com/api-keys
 
 ### 3. 运行 Demo
 
@@ -59,7 +54,7 @@ streamlit run app.py
 
 ## 🎯 功能演示
 
-### 1. 语法成分分析
+### 1. 语法成分分析 (蓝色按钮)
 
 输入：
 ```
@@ -71,18 +66,7 @@ The quick brown fox jumps over the lazy dog.
 - 谓语: jumps
 - 状语: over the lazy dog
 
-### 2. 固定搭配识别
-
-输入：
-```
-I'm looking forward to hearing from you.
-```
-
-输出：
-- 固定搭配: looking forward to（期待）
-- 动词短语: hearing from（收到...的来信）
-
-### 3. 重点单词标记
+### 2. 重点单词标记 (橙色按钮)
 
 输入：
 ```
@@ -93,21 +77,12 @@ Photosynthesis is the biological process.
 - 高级词汇: Photosynthesis（光合作用）
 - 学术词汇: biological（生物学的）
 
-## 💡 使用场景
+## ⚙️ 配置说明
 
-1. **教师备课** - 快速分析课文语法结构
-2. **学生学习** - 理解句子成分和固定搭配
-3. **产品验证** - 评估 LangExtract 在教育场景的效果
-4. **功能设计** - 为拍照翻译功能提供参考
+无需手动配置，系统默认使用 optimal settings:
+- **模型**: Gemini 1.5 Flash (快速、高效)
+- **分析模式**: 自动根据选择的功能匹配最佳 prompt
 
-## ⚙️ 配置选项
-
-在 Streamlit 界面中可以调整：
-
-- **模型选择**: Gemini 2.5 Flash / Gemini 2.5 Pro / GPT-4
-- **分析深度**: 基础分析 / 深度分析
-- **显示语言**: 中文 / 英文
-- **可视化模式**: 高亮模式 / 标签模式
 
 ## 📊 性能指标
 
